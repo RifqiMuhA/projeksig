@@ -44,7 +44,7 @@ Proyek ini adalah implementasi tugas akhir mata kuliah Sistem Informasi Geografi
 ## 🌍 **Cara Menjalankan Proyek**
 1. Clone repositori ini:
    ```bash
-   git clone https://github.com/username/repository.git
+   git clone https://github.com/RifqiMuhA/projeksig.git
    ```
 2. Instal dependensi Laravel:
    ```bash
@@ -59,7 +59,7 @@ Proyek ini adalah implementasi tugas akhir mata kuliah Sistem Informasi Geografi
    ```bash
    php artisan serve
    ```
-5. Akses aplikasi melalui browser di `http://localhost:8000`.
+5. Akses aplikasi melalui browser di `http://127.0.0.1:8000`.
 
 ## 🤝 **Kontribusi**
 Pemilik membuka peluang untuk kontribusi. Kalo kamu memiliki ide, bug fix, atau peningkatan fitur, silakan:
