@@ -96,10 +96,10 @@
         <!-- Statistics Cards -->
         <div class="mt-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Total Users Card with Instagram -->
-                <div class="space-y-4">
+                <!-- Left Column -->
+                <div class="flex flex-col h-full">
                     <!-- Instagram Card -->
-                    <a href="{{ $himada->instagram }}" target="_blank" class="block transform transition-all duration-300 hover:scale-105">
+                    <a href="{{ $himada->instagram }}" target="_blank" class="block transform transition-all duration-300 hover:scale-105 mb-6">
                         <div class="text-gray-500 font-medium text-sm w-full flex items-center justify-between bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 p-4 rounded-lg shadow-md hover:shadow-lg">
                             <div class="flex items-center space-x-3 text-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transition-transform duration-300 hover:rotate-12" fill="currentColor" viewBox="0 0 24 24">
@@ -112,55 +112,57 @@
                         </div>
                     </a>
 
-                    <!-- Users Statistics Card -->
-                    <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6 border border-gray-100 relative overflow-hidden group">
-                        <div class="relative z-10">
-                            <div class="flex items-center justify-between mb-2">
-                                <h3 class="text-gray-500 font-medium text-sm">Total Anggota Himada</h3>
-                                <div class="p-2 bg-indigo-50 rounded-lg group-hover:bg-indigo-100 transition-colors duration-300">
-                                    <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                                    </svg>
+                    <!-- Users Statistics Card - Now with centered content -->
+                    <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6 border border-gray-100 relative overflow-hidden group flex-1 flex flex-col">
+                        <div class="relative z-10 flex flex-col justify-center h-full">
+                            <div class="flex flex-col items-start justify-center flex-grow">
+                                <div class="flex items-center justify-between w-full mb-6">
+                                    <h3 class="text-gray-500 font-medium text-xl">Total Anggota Himada</h3>
+                                    <div class="p-2 bg-indigo-50 rounded-lg group-hover:bg-indigo-100 transition-colors duration-300">
+                                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between w-full">
+                                    <div>
+                                        <span class="text-5xl font-bold text-gray-800 mb-3 block" x-data="{ count: 0 }" x-intersect="$nextTick(() => {
+                                            let start = 0;
+                                            const end = {{ $total }};
+                                            const duration = 2000;
+                                            const step = Math.floor(duration / end);
+                                            const increment = Math.ceil(end / step);
+                                            const counter = setInterval(() => {
+                                                start += increment;
+                                                if (start > end) {
+                                                    start = end;
+                                                    clearInterval(counter);
+                                                }
+                                                $el.textContent = start.toLocaleString();
+                                            }, step);
+                                        })">0</span>
+                                        <p class="text-gray-400 text-lg">Mahasiswa/i</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="flex items-baseline">
-                                <span class="text-2xl font-bold text-gray-800" x-data="{ count: 0 }" x-intersect="$nextTick(() => {
-                                    let start = 0;
-                                    const end = {{ $total }};
-                                    const duration = 2000;
-                                    const step = Math.floor(duration / end);
-                                    const increment = Math.ceil(end / step);
-                                    const counter = setInterval(() => {
-                                        start += increment;
-                                        if (start > end) {
-                                            start = end;
-                                            clearInterval(counter);
-                                        } 
-                                        $el.textContent = start.toLocaleString();
-                                    }, step);
-                                    
-                                })">0</span>
-                            </div>
-                            <p class="text-gray-400 text-sm mt-1">Mahasiswa/i</p>
                         </div>
-                        <div class="absolute bottom-0 right-0 w-32 h-32 -m-6 bg-indigo-50 rounded-full opacity-50 group-hover:opacity-75 transition-opacity duration-300"></div>
+                        <div class="absolute bottom-0 right-0 w-40 h-40 -m-8 bg-indigo-50 rounded-full opacity-50 group-hover:opacity-75 transition-opacity duration-300"></div>
                     </div>
                 </div>
                 
                 <!-- Gender Ratio Card -->
-                <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6 border border-gray-100">
-                    <h3 class="text-gray-500 font-medium text-sm mb-4">Rasio Gender</h3>
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6 border border-gray-100 h-full">
+                    <h3 class="text-gray-500 font-medium text-xl mb-8">Rasio Gender</h3>
                     
-                    <div class="grid grid-cols-2 gap-8">
+                    <div class="grid grid-cols-2 gap-8 mb-8">
                         <!-- Pria -->
                         <div class="text-center">
-                            <div class="text-2xl font-bold text-black mb-1" 
+                            <div class="text-3xl font-bold text-black mb-3" 
                                 x-data="{ count: 0 }" 
                                 x-intersect="$nextTick(() => {
                                     let start = 0;
                                     const end = {{ $totalPria }};
-                                    console.log(end);
-                                    const duration = 2000; 
+                                    const duration = 2000;
                                     const step = Math.floor(duration / end);
                                     const increment = Math.ceil(end / step);
                                     const counter = setInterval(() => {
@@ -173,16 +175,16 @@
                                     }, step);
                                 })">0
                             </div>
-                            <svg class="w-12 h-12 mx-auto mb-2 text-blue-700" fill="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-16 h-16 mx-auto mb-3 text-blue-700" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 4a4 4 0 100 8 4 4 0 000-8zM6 8a6 6 0 1112 0A6 6 0 016 8zm2 10a3 3 0 00-3 3v1h14v-1a3 3 0 00-3-3H8z"/>
                             </svg>
-                            <h3 class="text-sm font-medium text-blue-700">{{$total == 0 ? 0 : number_format(($totalPria/$total) * 100, 2) }}%</h3>
-                            <div class="text-blue-700 mt-1">Pria</div>
+                            <h3 class="text-lg font-medium text-blue-700">{{$total == 0 ? 0 : number_format(($totalPria/$total) * 100, 2) }}%</h3>
+                            <div class="text-blue-700 mt-2 text-lg">Pria</div>
                         </div>
 
                         <!-- Wanita -->
                         <div class="text-center">
-                            <div class="text-2xl font-bold text-black mb-1"
+                            <div class="text-3xl font-bold text-black mb-3"
                                 x-data="{ count: 0 }" 
                                 x-intersect="$nextTick(() => {
                                     let start = 0;
@@ -200,16 +202,20 @@
                                     }, step);
                                 })">0
                             </div>
-                            <svg class="w-12 h-12 mx-auto mb-2 text-pink-400" fill="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-16 h-16 mx-auto mb-3 text-pink-400" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 4a4 4 0 100 8 4 4 0 000-8zM6 8a6 6 0 1112 0A6 6 0 016 8zm2 10a3 3 0 00-3 3v1h14v-1a3 3 0 00-3-3H8z"/>
                             </svg>
-                            <h3 class="text-sm font-medium text-pink-400">{{ $total == 0 ? 0 : number_format(($totalWanita/$total) * 100, 2) }}%</h3>
-                            <div class="text-pink-400 mt-1">Wanita</div>
+                            <h3 class="text-lg font-medium text-pink-400">{{ $total == 0 ? 0 : number_format(($totalWanita/$total) * 100, 2) }}%</h3>
+                            <div class="text-pink-400 mt-2 text-lg">Wanita</div>
                         </div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <p class="text-gray-600 text-lg">Angka Resio Gender: <span class="text-4xl font-bold ml-2">{{ number_format($totalPria/$totalWanita, 2) }}</span></p>
                     </div>
                 </div>
             </div>
         </div>
+
 
         <!-- Members Table -->
         <div class="bg-white rounded-lg shadow overflow-hidden mt-4">

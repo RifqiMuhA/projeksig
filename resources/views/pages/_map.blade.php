@@ -87,63 +87,58 @@
         Statistic
     </div>
     <hr class="border-t border-gray-300 dark:border-gray-700 my-4 opacity-50">
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-    <div class="lg:col-span-1 space-y-8">
-        <!-- Total Members Card -->
-        <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 relative overflow-hidden group">
-            <div class="relative z-10">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-gray-500 font-medium text-xl">Total Anggota Askara</h3>
-                    <div class="p-2 bg-indigo-100 rounded-lg group-hover:bg-indigo-200 transition-colors duration-300">
-                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                        </svg>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div class="lg:col-span-1 space-y-8">
+            <!-- Total Members Card -->
+            <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 relative overflow-hidden group">
+                <div class="relative z-10">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-gray-500 font-medium text-sm">Total Anggota Askara</h3>
+                        <div class="p-2 bg-indigo-100 rounded-lg group-hover:bg-indigo-200 transition-colors duration-300">
+                            <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                            </svg>
+                        </div>
                     </div>
+                    <div class="flex items-baseline">
+                        <span class="text-4xl font-bold text-gray-800" x-data="{ count: 0 }" x-intersect="$nextTick(() => {
+                            let start = 0;
+                            const end = {{ $total }};
+                            const duration = 4000;
+                            const step = Math.floor(duration / end);
+                            const increment = Math.ceil(end / step);
+                            const counter = setInterval(() => {
+                                start += increment;
+                                if (start > end) {
+                                    start = end;
+                                    clearInterval(counter);
+                                }
+                                $el.textContent = start.toLocaleString();
+                            }, step);
+                        })">0</span>
+                    </div>
+                    <p class="text-gray-400 text-sm mt-2">Mahasiswa/i</p>
                 </div>
-                <div class="flex items-baseline">
-                    <span class="text-4xl font-bold text-gray-800" x-data="{ count: 0 }" x-intersect="$nextTick(() => {
-                        let start = 0;
-                        const end = {{ $total }};
-                        const duration = 4000;
-                        const step = Math.floor(duration / end);
-                        const increment = Math.ceil(end / step);
-                        const counter = setInterval(() => {
-                            start += increment;
-                            if (start > end) {
-                                start = end;
-                                clearInterval(counter);
-                            }
-                            $el.textContent = start.toLocaleString();
-                        }, step);
-                    })">0</span>
-                </div>
-                <p class="text-gray-400 text-sm mt-2">Mahasiswa/i</p>
+                <div class="absolute bottom-0 right-0 w-32 h-32 -m-6 bg-indigo-100 rounded-full opacity-50 group-hover:opacity-75 transition-opacity duration-300"></div>
             </div>
-            <div class="absolute bottom-0 right-0 w-32 h-32 -m-6 bg-indigo-100 rounded-full opacity-50 group-hover:opacity-75 transition-opacity duration-300"></div>
+
+            <!-- Gender Chart Card -->
+            <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 flex flex-col items-center">
+                <h3 class="text-gray-500 font-medium text-sm mb-6">Rasio Gender</h3>
+                <div class="w-full max-w-xs">
+                    <canvas id="genderChart" width="100" height="100"></canvas>
+                </div>
+            </div>
         </div>
 
-        <!-- Gender Chart Card -->
-        <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 flex flex-col items-center">
-            <h3 class="text-gray-500 font-medium text-xl mb-6">Rasio Gender</h3>
-            <div class="w-full w-auto max-w-xs">
-                <canvas id="genderChart" width="100" height="100"></canvas>
-            </div>
-            <!-- Gender Ratio -->
-            <div class="mt-6 flex flex-col items-center space-y-2">
-                <p class="text-gray-600">Angka Resio Gender: <b class="text-3xl">{{ number_format($totalPria/$totalWanita, 3) }}</b> </p>
+        <!-- Right Column (2/3) -->
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 h-full">
+                <h3 class="text-gray-500 font-medium text-sm mb-8">Jumlah Mahasiswa per Pulau</h3>
+                <canvas id="pulauChart" width="400" height="200"></canvas>
             </div>
         </div>
     </div>
-
-    <!-- Right Column (2/3) -->
-    <div class="lg:col-span-2">
-        <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 h-full flex flex-col items-center justify-center">
-            <h3 class="text-gray-500 font-medium text-xl mb-8">Jumlah Mahasiswa per Pulau</h3>
-            <canvas id="pulauChart" width="400" height="200"></canvas>
-        </div>
-    </div>
-</div>
-
 </div>
 
 @endsection
@@ -261,12 +256,12 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         });
         // Inisialisasi layer kedua
-        const Stadia_AlidadeSatellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-                minZoom: 0,
-                maxZoom: 20,
-                attribution: 'Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-            }
-        );
+        const Stadia_AlidadeSatellite = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.{ext}', {
+            minZoom: 0,
+            maxZoom: 20,
+            attribution: '&copy; <a href="https://www.stadiamaps.com/">Stadia Maps</a>',
+            ext: 'jpg'
+        });
 
         // Data json dari laravel
         const users = @json($users);
@@ -302,22 +297,16 @@
                 return [...new Set(quantileBreaks)];
             },
 
-            // Fungsi untuk mendapatkan warna berdasarkan tipe map
-            getColor: (value, breaks, type = 'total') => {
-                if (type === 'ratio') {
-                    // Kategori baru untuk ratio
-                    if (value < 1) return '#B83280';  // Dominan Wanita (pink)
-                    if (value > 1) return '#2B6CB0';  // Dominan Pria (biru)
-                    return '#808080';  // Seimbang (abu-abu)
-                }
+            // Fungsi untuk mendapatkan warna berdasarkan quantile breaks
+            getColor: (value, breaks) => {
+                const colors = [
+                    '#FFEDA0', 
+                    '#FEB24C', 
+                    '#FD8D3C', 
+                    '#FC4E2A', 
+                    '#E31A1C'
+                ];
 
-                const colorSchemes = {
-                    total: ['#FFEDA0', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C'],
-                    male: ['#EBF8FF', '#90CDF4', '#63B3ED', '#4299E1', '#2B6CB0'],
-                    female: ['#FFF5F7', '#FBB6CE', '#F687B3', '#ED64A6', '#B83280']
-                };
-
-                const colors = colorSchemes[type];
                 for (let i = breaks.length - 1; i >= 1; i--) {
                     if (value > breaks[i - 1]) {
                         return colors[i - 1];
@@ -326,31 +315,18 @@
                 return colors[0];
             },
 
-            // Hitung jumlah berdasarkan tipe
-            countByType: (feature, type) => {
-                const filteredUsers = users.filter(user => 
+            // Hitung jumlah user untuk sebuah himada
+            countUsersInRegion: (feature) => {
+                return users.filter(user => 
                     user.himada.toUpperCase() === feature.properties.Himada
-                );
-
-                switch (type) {
-                    case 'male':
-                        return filteredUsers.filter(user => user.jenis_kelamin === 'Pria').length;
-                    case 'female':
-                        return filteredUsers.filter(user => user.jenis_kelamin === 'Wanita').length;
-                    case 'ratio':
-                        const males = filteredUsers.filter(user => user.jenis_kelamin === 'Pria').length;
-                        const females = filteredUsers.filter(user => user.jenis_kelamin === 'Wanita').length;
-                        return females === 0 ? Infinity : males / females;
-                    default:
-                        return filteredUsers.length;
-                }
+                ).length;
             },
 
-            // Style map per himada
-            getDefaultStyle: (feature, breaks, type = 'total') => {
-                const value = mapUtils.countByType(feature, type);
+            // Stylle map per himada
+            getDefaultStyle: (feature, breaks) => {
+                const density = mapUtils.countUsersInRegion(feature);
                 return {
-                    fillColor: mapUtils.getColor(value, breaks, type),
+                    fillColor: mapUtils.getColor(density, breaks),
                     weight: 1,
                     opacity: 1,
                     color: '#666',
@@ -370,24 +346,8 @@
             }),
 
             // Style popup saat memilih himada
-            createPopupContent: (feature, currentType = 'total') => {
+            createPopupContent: (feature, userCount) => {
                 const himadaImagePath = `${window.location.origin}/images/logo_himada/${feature.properties.Himada.toLowerCase()}.jpg`;
-                
-                let contentText = '';
-                switch(currentType) {
-                    case 'male':
-                        contentText = `<div class="mb-4">Jumlah Laki-laki: ${mapUtils.countByType(feature, 'male')}</div>`;
-                        break;
-                    case 'female':
-                        contentText = `<div class="mb-4">Jumlah Perempuan: ${mapUtils.countByType(feature, 'female')}</div>`;
-                        break;
-                    case 'ratio':
-                        const ratio = mapUtils.countByType(feature, 'ratio');
-                        contentText = `<div class="mb-4">Rasio Gender: ${ratio === Infinity ? '∞' : ratio.toFixed(2)}</div>`;
-                        break;
-                    default:
-                        contentText = `<div class="mb-4">Total Anggota: ${mapUtils.countByType(feature, 'total')}</div>`;
-                }
 
                 return `
                     <div class="text-center p-4" style="max-width: 250px;">
@@ -395,7 +355,7 @@
                             alt="${feature.properties.Himada}" 
                             class="mx-auto mb-3 h-16 w-auto object-contain"/>
                         <div class="font-bold text-lg mb-2">${feature.properties.Himada}</div>
-                        ${contentText}
+                        <div class="mb-4">Jumlah Anggota ${feature.properties.Himada} : ${userCount}</div>
                         <a href="/map/${feature.properties.Himada.toLowerCase()}" 
                         class="border-2 border-blue-500 text-blue-500 hover:text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">
                             Lihat Detail Himada
@@ -404,20 +364,21 @@
                 `;
             },
 
-            // Legend klasifikasi himada
-            createLegend: (breaks, type = 'total') => {
+            // Legend klasifikasi himada berdasarkan jumlah
+            createLegend: (breaks) => {
                 const legend = L.control({ position: 'bottomright' });
-                const titles = {
-                    total: 'Jumlah Anggota',
-                    male: 'Jumlah Laki-laki',
-                    female: 'Jumlah Perempuan',
-                    ratio: 'Rasio Gender (L:P)'
-                };
 
                 legend.onAdd = (map) => {
                     const div = L.DomUtil.create('div', 'info legend');
                     const labels = [];
-                    
+                    const colors = [
+                        '#FFEDA0', 
+                        '#FEB24C', 
+                        '#FD8D3C', 
+                        '#FC4E2A', 
+                        '#E31A1C'
+                    ]; // Warna disesuaikan dengan 5 kelas
+
                     div.style.backgroundColor = 'white';
                     div.style.padding = '6px 8px';
                     div.style.border = '1px solid rgba(0,0,0,0.2)';
@@ -425,27 +386,14 @@
                     div.style.lineHeight = '18px';
                     div.style.color = '#555';
 
-                    labels.push(`<h4 style="margin:0 0 5px 0">${titles[type]}</h4>`);
+                    labels.push('<h4 style="margin:0 0 5px 0">Jumlah Anggota</h4>');
 
-                    if (type === 'ratio') {
+                    for (let i = 0; i < breaks.length - 1; i++) {
                         labels.push(
-                            '<i style="background:#B83280"></i> Dominan Wanita (L:P < 1)<br>',
-                            '<i style="background:#808080"></i> Seimbang (L:P ~ 1)<br>',
-                            '<i style="background:#2B6CB0"></i> Dominan Pria (L:P > 1)',
+                            `<i style="background:${colors[i]}; width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7"></i>` +
+                            ((i === breaks.length - 2) ? `≥ ${breaks[i]}` : `${breaks[i]} &ndash; ${breaks[i + 1]}`) + "<br>"
                         );
-                    } else {
-                        const colors = type === 'total' ? 
-                            ['#FFEDA0', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C'] :
-                            type === 'male' ?
-                            ['#EBF8FF', '#90CDF4', '#63B3ED', '#4299E1', '#2B6CB0'] :
-                            ['#FFF5F7', '#FBB6CE', '#F687B3', '#ED64A6', '#B83280'];
 
-                        for (let i = 0; i < breaks.length - 1; i++) {
-                            labels.push(
-                                `<i style="background:${colors[i]}; width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7"></i>` +
-                                ((i === breaks.length - 2) ? `≥ ${breaks[i]}` : `${breaks[i]} &ndash; ${breaks[i + 1]}`) + "<br>"
-                            );
-                        }
                     }
 
                     div.innerHTML = labels.join('');
@@ -454,64 +402,32 @@
 
                 return legend;
             }
+            
         };
 
-        // Inisialisasi map dari geojson himada
-        let currentLegend = null;
-        let currentType = 'total';
-
+        // Inisialisasi map dari geojson himada 
         fetch("/geojson/HIMADA_STIS.geojson")
             .then(response => response.json())
             .then(data => {
                 let selectedLayer = null;
-                let geoJsonLayer = null;
 
-                function updateMap(type) {
-                    currentType = type;
-                    
-                    // Hitung breaks berdasarkan tipe
-                    const values = data.features.map(feature => mapUtils.countByType(feature, type));
-                    const breaks = type === 'ratio' ? 
-                        [1, 1, 1] :  // Breaks baru untuk ratio
-                        mapUtils.getQuantileBreaks(values);
-
-                    // Update style untuk semua layer
-                    if (geoJsonLayer) {
-                        geoJsonLayer.eachLayer(layer => {
-                            layer.setStyle(mapUtils.getDefaultStyle(layer.feature, breaks, type));
-                        });
-                    }
-
-                    // Update legend
-                    if (currentLegend) {
-                        map.removeControl(currentLegend);
-                    }
-                    currentLegend = mapUtils.createLegend(breaks, type).addTo(map);
-                }
-
-                // Event listeners untuk tombol
-                document.querySelector('#totalMap').addEventListener('click', () => updateMap('total'));
-                document.querySelector('#maleMap').addEventListener('click', () => updateMap('male'));
-                document.querySelector('#femaleMap').addEventListener('click', () => updateMap('female'));
-                document.querySelector('#ratioMap').addEventListener('click', () => updateMap('ratio'));
-
-                // Initial render
-                const initialBreaks = mapUtils.getQuantileBreaks(
-                    data.features.map(feature => mapUtils.countByType(feature, 'total'))
+                // Hitung jumlah anggota untuk setiap wilayah
+                const userCounts = data.features.map(feature => 
+                    mapUtils.countUsersInRegion(feature)
                 );
 
-                geoJsonLayer = L.geoJSON(data, {
-                    style: (feature) => mapUtils.getDefaultStyle(feature, initialBreaks, 'total'),
+                // Dapatkan Quantile breaks
+                const breaks = mapUtils.getQuantileBreaks(userCounts);
+
+                const geoJsonLayer = L.geoJSON(data, {
+                    style: (feature) => mapUtils.getDefaultStyle(feature, breaks),
                     onEachFeature: (feature, layer) => {
+                        const userCount = mapUtils.countUsersInRegion(feature);
+                        
                         layer.on({
                             click: (e) => {
                                 if (selectedLayer) {
-                                    const currentBreaks = currentType === 'ratio' ? 
-                                        [0, 0.5, 1, 1.5, 2] : 
-                                        mapUtils.getQuantileBreaks(
-                                            data.features.map(f => mapUtils.countByType(f, currentType))
-                                        );
-                                    selectedLayer.setStyle(mapUtils.getDefaultStyle(selectedLayer.feature, currentBreaks, currentType));
+                                    selectedLayer.setStyle(mapUtils.getDefaultStyle(selectedLayer.feature, breaks));
                                 }
                                 
                                 layer.setStyle(mapUtils.getSelectedStyle());
@@ -519,11 +435,10 @@
 
                                 L.popup({
                                     className: 'custom-popup',
-                                    minWidth: 250,
-                                    closeButton: false,
+                                    minWidth: 250
                                 })
                                     .setLatLng(e.latlng)
-                                    .setContent(mapUtils.createPopupContent(feature, currentType))
+                                    .setContent(mapUtils.createPopupContent(feature, userCount))
                                     .openOn(map);
 
                                 L.DomEvent.stopPropagation(e);
@@ -538,29 +453,19 @@
                             },
                             mouseout: (e) => {
                                 if (layer !== selectedLayer) {
-                                    const currentBreaks = currentType === 'ratio' ? 
-                                        [0, 0.5, 1, 1.5, 2] : 
-                                        mapUtils.getQuantileBreaks(
-                                            data.features.map(f => mapUtils.countByType(f, currentType))
-                                        );
-                                    layer.setStyle(mapUtils.getDefaultStyle(feature, currentBreaks, currentType));
+                                    layer.setStyle(mapUtils.getDefaultStyle(feature, breaks));
                                 }
                             }
                         });
                     }
                 }).addTo(map);
 
-                // Add initial legend
-                currentLegend = mapUtils.createLegend(initialBreaks, 'total').addTo(map);
+                // Add legend to map
+                mapUtils.createLegend(breaks).addTo(map);
 
                 map.on('click', (e) => {
                     if (selectedLayer && !e.originalEvent.path?.includes(selectedLayer._path)) {
-                        const currentBreaks = currentType === 'ratio' ? 
-                            [0, 0.5, 1, 1.5, 2] : 
-                            mapUtils.getQuantileBreaks(
-                                data.features.map(f => mapUtils.countByType(f, currentType))
-                            );
-                        selectedLayer.setStyle(mapUtils.getDefaultStyle(selectedLayer.feature, currentBreaks, currentType));
+                        selectedLayer.setStyle(mapUtils.getDefaultStyle(selectedLayer.feature, breaks));
                         selectedLayer = null;
                     }
                 });
