@@ -429,9 +429,9 @@
 
                     if (type === 'ratio') {
                         labels.push(
-                            '<i style="background:#B83280"></i> Dominan Wanita (L:P < 1)<br>',
-                            '<i style="background:#808080"></i> Seimbang (L:P ~ 1)<br>',
-                            '<i style="background:#2B6CB0"></i> Dominan Pria (L:P > 1)',
+                            '<div style="margin-bottom: 3px;"><i style="background:#B83280; display: inline-block; width: 18px; height: 18px; margin-right: 8px;"></i> Dominan Wanita (L:P < 1)</div>',
+                            '<div style="margin-bottom: 3px;"><i style="background:#808080; display: inline-block; width: 18px; height: 18px; margin-right: 8px;"></i> Seimbang (L:P ~ 1)</div>',
+                            '<div style="margin-bottom: 3px;"><i style="background:#2B6CB0; display: inline-block; width: 18px; height: 18px; margin-right: 8px;"></i> Dominan Pria (L:P > 1)</div>'
                         );
                     } else {
                         const colors = type === 'total' ? 
